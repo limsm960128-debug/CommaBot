@@ -3,10 +3,14 @@ import json
 import os
 import random
 
-# 깃허브 금고(Secrets)에서 키를 꺼내오는 코드입니다.
-GEMINI_API_KEY = os.environ['GEMINI_API_KEY']
-KAKAO_API_KEY = os.environ['KAKAO_API_KEY']
-KAKAO_REFRESH_TOKEN = os.environ['KAKAO_REFRESH_TOKEN']
+# 깃허브 금고(Secrets)에서 키를 꺼내오는 코드
+try:
+    GEMINI_API_KEY = os.environ['GEMINI_API_KEY']
+    KAKAO_API_KEY = os.environ['KAKAO_API_KEY']
+    KAKAO_REFRESH_TOKEN = os.environ['KAKAO_REFRESH_TOKEN']
+except KeyError:
+    print("❌ 오류: Secrets(비밀키)가 설정되지 않았습니다. Settings > Secrets and variables > Actions 에서 키 이름을 확인해주세요.")
+    exit(1)
 
 # ==========================================
 # 🔄 토큰 갱신 (리프레시 토큰으로 액세스 토큰 받기)
