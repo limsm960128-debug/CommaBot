@@ -1,0 +1,30 @@
+name: Comma Bot Daily Run
+
+on:
+  schedule:
+    # ⚠️ 중요: 국제 표준시(UTC) 기준입니다.
+    # 한국 시간 아침 8시 30분 = 전날 밤 23시 30분 (UTC)
+    - cron: '30 23 * * *'
+  workflow_dispatch: # 수동으로 실행 버튼도 만들어주는 옵션
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: 파이썬 설치하기
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 필요한 프로그램 설치 (requests)
+        run: pip install requests
+
+      - name: 봇 실행하기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          KAKAO_API_KEY: ${{ secrets.KAKAO_API_KEY }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+        run: python main.py
